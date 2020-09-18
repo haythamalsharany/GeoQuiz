@@ -1,9 +1,20 @@
 <resources>
     <string name="app_name">GeoQuiz</string>
-    <string name="question_text">is sana\'a the capital of yemen</string>
+
     <string name="false_button">False</string>
     <string name="true_button">True</string>
+    <string name="next_button">next</string>
+    <string name="previus_button">previus</string>
+
     <string name="Correct_toast">good you are right</string>
     <string name="wrong_toast">Ooooops ! you are wrong</string>
+
+    <!--  qustions -->
+    <string name="sanaa_question"> sana\'a is the capital of yemen</string>
+    <string name="taiz_question">cairo castel is in taiz </string>
+    <string name="ibb_question">ibb is the most beautifull city in  yemen</string>
+    <string name="aden_question"> aden is  the capital of yemen</string>
+    <string name="mareb_question">mareb is  the capital of saba kigdom</string>
+    <string name="jawf_question">jawf is  the capital of saba kigdom</string>
 
 </resources>
