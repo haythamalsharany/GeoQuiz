@@ -1,6 +1,7 @@
 package com.alsharany.geoquiz
 
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
             currentIndex = if (currentIndex == 0) {
                 Toast.makeText(this, "therr is no previus ", Toast.LENGTH_LONG).show()
                 currentIndex
+
             } else
                 currentIndex - 1
             updateQuestion()
@@ -83,7 +85,13 @@ class MainActivity : AppCompatActivity() {
             R.string.Correct_toast
         else
             R.string.wrong_toast
-        Toast.makeText(this, messageResId, Toast.LENGTH_LONG).show()
+       // Toast.makeText(this, messageResId, Toast.LENGTH_LONG).show()
+
+        //-------------------make toast showen in the top isead of in the bottom---------
+        var  tost=  Toast.makeText(this,messageResId,Toast.LENGTH_LONG)
+           tost.setGravity(Gravity.TOP,0,0)
+           tost.show()
+
     }
 
 }
