@@ -52,7 +52,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_arrow_back_ios_24"
-
+             android:contentDescription="@string/previus_button"
            ></ImageButton>
        <ImageButton
 
@@ -60,6 +60,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+          android:contentDescription="@string/next_button"
            ></ImageButton>
 
    </LinearLayout>

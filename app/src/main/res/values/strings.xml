@@ -8,6 +8,8 @@
 
     <string name="Correct_toast">good you are right</string>
     <string name="wrong_toast">Ooooops ! you are wrong</string>
+    <string name="Score_toast">your Score is :</string>
+
 
     <!--  qustions -->
     <string name="sanaa_question"> sana\'a is the capital of yemen</string>
@@ -15,6 +17,10 @@
     <string name="ibb_question">ibb is the most beautifull city in  yemen</string>
     <string name="aden_question"> aden is  the capital of yemen</string>
     <string name="mareb_question">mareb is  the capital of saba kigdom</string>
-    <string name="jawf_question">jawf is  the capital of saba kigdom</string>
+    <string name="raima_question">raima is anew city</string>
+    <string name="hodida_question">hodaid is  located neer to red sea</string>
+    <string name="mahra_question">mahar has spicial accent</string>
+    <string name="lahg_question">lahg is located between taiz and Aden</string>
+    <string name="mahweet_question">mahweet is located in USA</string>
 
 </resources>
