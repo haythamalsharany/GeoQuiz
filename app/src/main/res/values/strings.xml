@@ -26,5 +26,11 @@
     <string name="mahra_question">mahar has spicial accent</string>
     <string name="lahg_question">lahg is located between taiz and Aden</string>
     <string name="mahweet_question">mahweet is located in USA</string>
+    <string name="Pepulation_yemen">25 million people in yemen</string>
+    <string name="rusia_question">mosco is the capital of rusia</string>
+    <string name="french_question">eivel tour found in french</string>
+    <string name="turkey_question">arabic language is the formal in turkey </string>
+    <string name="egypt_question">egypt is located in aisa </string>
+    <string name="IraQ_question">Iraq had Pattil with USA</string>
 
 </resources>
