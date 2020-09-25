@@ -9,6 +9,10 @@
     <string name="Correct_toast">good you are right</string>
     <string name="wrong_toast">Ooooops ! you are wrong</string>
     <string name="Score_toast">your Score is :</string>
+    <string name="warning_text">Are you sure you want to do this?</string>
+    <string name="show_answer_button">Show Answer</string>
+    <string name="cheat_button">Cheat!</string>
+    <string name="judgment_toast">Cheating is wrong.</string>
 
 
     <!--  qustions -->

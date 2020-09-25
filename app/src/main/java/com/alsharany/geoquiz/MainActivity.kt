@@ -1,56 +1,63 @@
 package com.alsharany.geoquiz
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
+import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import kotlinx.android.synthetic.main.activity_main.*
 
+private const val REQUEST_CODE_CHEAT = 0
 class MainActivity : AppCompatActivity() {
-    private val QuestionBank = listOf<Question>(
-        Question(R.string.sanaa_question, true),
-        Question(R.string.taiz_question, true),
-        Question(R.string.ibb_question, true),
-        Question(R.string.aden_question, false),
-        Question(R.string.mareb_question, true),
-        Question(R.string.raima_question, true),
-        Question(R.string.hodida_question, true),
-        Question(R.string.mahra_question, true),
-        Question(R.string.lahg_question, false),
-        Question(R.string.mahweet_question, false),
+    private val quizViewModel: QuizViewModel by lazy {
+        ViewModelProviders.of(this).get(QuizViewModel::class.java)
+    }
 
-        )
-    private var currentIndex = 0
-    private var trueAnswer = 0
-    private var falseAnswer = 0
 
     private lateinit var QuestionText: TextView
     private lateinit var nextBtn: ImageButton
     private lateinit var previusBtn: ImageButton
+    private lateinit var cheatButton: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        nextBtn = findViewById(R.id.next_btn)
+        this.nextBtn = findViewById(R.id.next_btn)
         previusBtn = findViewById(R.id.previus_btn)
         QuestionText = findViewById(R.id.Question_text)
+        cheatButton = findViewById(R.id.cheat_button)
         updateQuestion()
         true_btn.setOnClickListener {
             checkAnswer(true)
-            if (currentIndex == QuestionBank.size - 1)
+            changeAnswerStatus()
+            btnEnableUnEbale(false_btn,false)
+            btnEnableUnEbale(true_btn,false)
+
+            if  (checkCountOfAnswers())
                 getGrade()
         }
         false_btn.setOnClickListener {
-            // Toast.makeText(this,R.string.wrong_toast,Toast.LENGTH_LONG).show()
-//       var  tost=  Toast.makeText(this,R.string.wrong_toast,Toast.LENGTH_LONG)
-//            tost.setGravity(Gravity.TOP,0,0)
-//            tost.show()
             checkAnswer(false)
-            if (currentIndex == QuestionBank.size - 1)
+            changeAnswerStatus()
+            btnEnableUnEbale(false_btn,false)
+            btnEnableUnEbale(true_btn,false)
+            if (checkCountOfAnswers())
                 getGrade()
 
+
+        }
+        cheatButton.setOnClickListener {
+            // val intent = Intent(this, CheatingActivity::class.java)
+            val answerIsTrue = quizViewModel.currentQuestionAnswer
+            val intent = CheatingActivity.newIntent(this@MainActivity, answerIsTrue)
+            startActivityForResult(intent, REQUEST_CODE_CHEAT)
 
         }
         updateQuestion()
@@ -64,34 +71,73 @@ class MainActivity : AppCompatActivity() {
             updateQuestion()
         }
         QuestionText.setOnClickListener {
-            currentIndex = (currentIndex + 1) % QuestionBank.size
+            checkIndex(nextBtn.id)
             updateQuestion()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+        if (requestCode == REQUEST_CODE_CHEAT) {
+            quizViewModel.isCheater = data?.getBooleanExtra(EXTRA_ANSWER_SHOWN, false) ?: false
         }
     }
 
     private fun updateQuestion() {
         //enable true button false button
-        btnEnableUnEbale(true)
-        QuestionText.setText(QuestionBank[currentIndex].Question_text)
+        if(quizViewModel.QuestionBank[quizViewModel.currentIndex].answerStatus==false) {
+            btnEnableUnEbale(true_btn, true)
+            btnEnableUnEbale(false_btn, true)
+        }
+        else
+            msg_Toast("this question is alrady answered",Gravity.CENTER_VERTICAL)
+
+
+
+        QuestionText.setText(quizViewModel.currentQustionText)
+
+
     }
 
     private fun checkAnswer(userAnswer: Boolean) {
-        val correctAnswer = QuestionBank[currentIndex].answer
-        val messageResId = if (userAnswer == correctAnswer) {
-            trueAnswer++
-            R.string.Correct_toast
-        } else {
-            falseAnswer++
-            R.string.wrong_toast
+        val correctAnswer = quizViewModel.QuestionBank[quizViewModel.currentIndex].answer
+//        val messageResId = if (userAnswer == correctAnswer) {
+//            trueAnswer++
+//            R.string.Correct_toast
+//        } else {
+//            falseAnswer++
+//            R.string.wrong_toast
+
+//        }
+
+        val messageResId = when {
+            quizViewModel.isCheater -> R.string.judgment_toast
+            userAnswer == correctAnswer -> {
+                quizViewModel.trueAnswer++
+                R.string.Correct_toast}
+            else -> { quizViewModel.falseAnswer++
+                R.string.wrong_toast
+            }
         }
         var toast = Toast.makeText(this, messageResId, Toast.LENGTH_LONG)
         toast.setGravity(Gravity.TOP, 0, 0)
         toast.show()
-        btnEnableUnEbale(false)
+
+    }
+
+    private fun checkCountOfAnswers(): Boolean {
+        var checker =if(quizViewModel.currentIndex == quizViewModel.QuestionBank.size - 1&& quizViewModel.trueAnswer + quizViewModel.falseAnswer == quizViewModel.QuestionBank.size  )
+                  true
+        else false
+        return checker
+
     }
 
     private fun getGrade() {
-        var grade=trueAnswer * 10
+        var grade = quizViewModel.trueAnswer * 10
         msg_Toast("your score is : ${grade}%", Gravity.CENTER_VERTICAL)
     }
 
@@ -105,25 +151,41 @@ class MainActivity : AppCompatActivity() {
     private fun checkIndex(viewId: Int) {
         when (viewId) {
             previusBtn.id -> {
-                currentIndex = if (currentIndex == 0) {
-                    msg_Toast("thetre is the frist Question ", Gravity.BOTTOM)
-                    currentIndex
-                } else
-                    currentIndex - 1
+                btnEnableUnEbale(nextBtn,true)
+                if (quizViewModel.currentIndex <= 1) {
+
+                    quizViewModel.currentIndex=0
+
+                    btnEnableUnEbale(previusBtn,false)
+
+                } else {
+                    btnEnableUnEbale(previusBtn, true)
+                    quizViewModel.moveToPreviusQuestion()
+                }
+
             }
             nextBtn.id -> {
-                currentIndex = if (currentIndex == QuestionBank.size - 1) {
-                    msg_Toast("there is the last Question ", Gravity.BOTTOM)
-                    currentIndex
-                } else
-                    currentIndex + 1
+                btnEnableUnEbale(previusBtn,true)
+                if (quizViewModel.currentIndex == quizViewModel.QuestionBank.size - 1) {
+                    btnEnableUnEbale(nextBtn,false)
+
+                    quizViewModel.currentIndex
+                } else {
+                    btnEnableUnEbale(nextBtn,true)
+
+                    quizViewModel.moveToNextQuestion()
+                }
+
             }
         }
     }
 
-    private fun btnEnableUnEbale(BState: Boolean) {
-        false_btn.isEnabled = BState
-        true_btn.isEnabled = BState
+    private fun btnEnableUnEbale(view:View,BState: Boolean) {
+        view.isEnabled = BState
+
+    }
+    private  fun  changeAnswerStatus(){
+        quizViewModel.QuestionBank[quizViewModel.currentIndex].answerStatus=true
     }
 
 }
