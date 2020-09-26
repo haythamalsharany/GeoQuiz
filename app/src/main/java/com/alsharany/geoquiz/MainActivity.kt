@@ -75,6 +75,8 @@ class MainActivity : AppCompatActivity() {
         }
         cheatButton.setOnClickListener {
             btnEnableUnEbale(cheatButton,false)
+            btnEnableUnEbale(false_btn,false)
+            btnEnableUnEbale(true_btn,false)
             changeAnswerStatus()
 
 
