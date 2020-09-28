@@ -3,4 +3,8 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="trueAnswer">#5ca96b</color>
+    <color name="cheatAnswer">#eda200</color>
+    <color name="falseAnswer">#e60012</color>
+    <color name="defaultr">#d4d4d4</color>
 </resources>

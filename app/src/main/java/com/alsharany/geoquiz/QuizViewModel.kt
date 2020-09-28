@@ -4,29 +4,29 @@ import androidx.lifecycle.ViewModel
 
 class QuizViewModel : ViewModel() {
 
-    val easyQuestion = listOf<Question>(
-        Question(R.string.sanaa_question, true, false, "easy", 10),
-        Question(R.string.taiz_question, true, false, "easy", 10),
-        Question(R.string.ibb_question, true, false, "easy", 10),
-        Question(R.string.aden_question, false, false, "easy", 10),
-        Question(R.string.mareb_question, true, false, "easy", 10),
-        Question(R.string.raima_question, true, false, "easy", 10),
+    val easyQuestion = listOf(
+        Question(R.string.sanaa_question, true, false, "easy"),
+        Question(R.string.taiz_question, true, false, "easy"),
+        Question(R.string.ibb_question, true, false, "easy"),
+        Question(R.string.aden_question, false, false, "easy"),
+        Question(R.string.mareb_question, true, false, "easy"),
+        Question(R.string.raima_question, true, false, "easy"),
     )
-    val mediumQuetion = listOf<Question>(
-        Question(R.string.hodida_question, true, false, "medium", 15),
-        Question(R.string.mahra_question, true, false, "medium", 15),
-        Question(R.string.lahg_question, false, false, "medium", 15),
-        Question(R.string.mahweet_question, false, false, "medium", 15),
+    val mediumQuetion = listOf(
+        Question(R.string.hodida_question, true, false, "medium"),
+        Question(R.string.mahra_question, true, false, "medium"),
+        Question(R.string.lahg_question, true, false, "medium"),
+        Question(R.string.mahweet_question, false, false, "medium"),
 
         )
 
-    val defficlutQustion = listOf<Question>(
-        Question(R.string.Pepulation_yemen, true, false, "diff", 25),
-        Question(R.string.rusia_question, true, false, "diff", 25),
-        Question(R.string.french_question, true, false, "diff", 25),
-        Question(R.string.turkey_question, false, false, "diff", 25),
-        Question(R.string.egypt_question, false, false, "diff", 25),
-        Question(R.string.IraQ_question, true, false, "diff", 25),
+    val defficlutQustion = listOf(
+        Question(R.string.Pepulation_yemen, true, false, "diff"),
+        Question(R.string.rusia_question, true, false, "diff"),
+        Question(R.string.french_question, true, false, "diff"),
+        Question(R.string.turkey_question, false, false, "diff"),
+        Question(R.string.egypt_question, false, false, "diff"),
+        Question(R.string.IraQ_question, true, false, "diff"),
     )
 
     var QuestionBank = mutableListOf<Question>()
@@ -36,7 +36,7 @@ class QuizViewModel : ViewModel() {
     var trueAnswer = 0
     var falseAnswer = 0
     var isCheater = false
-    var grade = 0
+    var score = 0
     val currentQuestionAnswer: Boolean
         get() {
             return QuestionBank[currentIndex].answer
@@ -46,8 +46,16 @@ class QuizViewModel : ViewModel() {
 
             return QuestionBank[currentIndex].Question_text
 
-
         }
+    val currentQustionStatus:Boolean
+        get(){
+            return QuestionBank[currentIndex].answerStatus
+        }
+    val currentQustionLevel:String
+        get(){
+            return QuestionBank[currentIndex].level
+        }
+
     fun moveToNextQuestion(){
         currentIndex += 1
     }
